@@ -1,4 +1,4 @@
-all: main
+all: clean main
 main: main.o fileManager.o
 	gcc -o main main.o fileManager.o
 main.o: main.c fileManager.h
@@ -8,5 +8,4 @@ fileManager.o: fileManager.c
 clean:
 	rm -rf *.o
 	rm -rf *.dat
-
 mrproper: clean

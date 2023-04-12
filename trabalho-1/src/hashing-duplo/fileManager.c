@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "models.h"
 
 /*
@@ -70,11 +71,11 @@ void createOutputFile(int amountRecords) {
     fwrite(&r, sizeof(record), 1, f);
   }
 
-  fclose(seqs);
+  fclose(f);
 }
 
 /*
-* Recebe um inteiro e insere um registro em nível de arquivo.
+* Recebe um inteiro, referente ao index do arquivo e verifica se ele está livre.
 * @param {int} index
 */
 bool verifyFileIndexIsFree(int index) {
@@ -89,13 +90,30 @@ bool verifyFileIndexIsFree(int index) {
 
     fseek(f, position, SEEK_SET);
     fread(&r, sizeof(record), 1, f);
-    fclose(seqs);
+    fclose(f);
 
     if(r.value == -1) {
       return true;
     }
     return false;
   }
+}
+
+/*
+* Chama o método verifyFileIndexIsFree() para encontrar o próximo index livre e válido para o h1 e o h2 daquele registro.
+* @param {int} h1
+* @param {int} h2
+* @param {int} tamanhoDoArquivo
+*/
+int findFreeIndex(int h1, int h2, int max) {
+  int index = h1, i = 1;
+  
+  while(!verifyFileIndexIsFree(index)) {
+    index = (h1 + (i * h2)) % max;
+    i++;
+  }
+  
+  return index;
 }
 
 /*
@@ -118,7 +136,7 @@ int calculateSecondHashing(int input, int max) {
   if(input < max) {
     return 1;
   }
-  return ((input/max) % max);
+  return ((int) floor(input/max) % max);
 }
 
 /*
@@ -136,24 +154,53 @@ void insertRecord(int input) {
     int h1 = calculateFirstHashing(input, header.possibleTotalRecords);
     int h2 = calculateSecondHashing(input, header.possibleTotalRecords);
 
-    if(verifyFileIndexIsFree(h1)) { // Realiza inserção por H1 caso a posição no arquivo esteja livre.
-      record r = newRecord(h1, input);
-      int position = sizeof(fileHeader) + (sizeof(record)*h1);
+    if(header.countInsertedRecords >= header.possibleTotalRecords) {
+      printf("Não foi possível inserir o registro [%d], pois o arquivo está cheio.\n", input);
+      fclose(f);
+      return;
+    }
+
+    int index = findFreeIndex(h1, h2, header.possibleTotalRecords);
+    int position = sizeof(fileHeader) + (sizeof(record)*index);
+    record r = newRecord(index, input);
+
+    fseek(f, position, SEEK_SET);
+    fwrite(&r, sizeof(record), 1, f);
+
+    header.countInsertedRecords++;
+    setFileHeader(header,f);
+  }
+  fclose(f);
+}
+
+/*
+* Printa o arquivo: header e seus registros inseridos.
+*/
+void printFile() {
+  FILE *f = fopen(OUTPUT_FILE, "rb+");
+  
+  if(f == NULL) {
+    exit(-1);
+  }
+  else {
+    fileHeader header = getFileHeader(f);
+
+    for(int i = 0; i < header.possibleTotalRecords; i++) {
+      record r;
+      int position = sizeof(fileHeader) + (sizeof(record)*i);
 
       fseek(f, position, SEEK_SET);
-      fwrite(&r, sizeof(record), 1, f);
-    }
-    else { // Realiza inserção por H2 buscando a próxima posição livre.
+      fread(&r, sizeof(record), 1, f);
 
+      printf("[%d]: %d\n", i, r.value);
     }
-
-    fclose(f);
   }
+  fclose(f);
 }
 
 /*
 * Faz a chamada das funções de relatórios e métricas.
 */
 void printReports() {
-  printf("uma hora eu chego aqui!\n");
+  printFile();
 }

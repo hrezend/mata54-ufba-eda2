@@ -5,7 +5,7 @@
 
 int main() {
   int amountRecords, input;
-  scanf("%d", amountRecords);
+  scanf("%d", &amountRecords);
 
   FILE *f;
   f = fopen(OUTPUT_FILE, "rb");
@@ -13,7 +13,7 @@ int main() {
     createOutputFile(amountRecords);
 
     while(1) {
-      if (scanf("%c", input) == EOF) break;
+      if (scanf("%d", &input) == EOF) break;
       insertRecord(input);
     }
   }

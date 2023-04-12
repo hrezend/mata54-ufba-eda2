@@ -1,8 +1,6 @@
 #ifndef _H_FILE_MANAGER_
 #define _H_FILE_MANAGER_
 
-  #include <stdbool.h>
-  #include <stdlib.h>
   #include <stdio.h>
   #include "models.h"
 
