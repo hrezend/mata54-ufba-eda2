@@ -8,6 +8,7 @@
 # Índice
 
 - [Sobre](#sobre)
+- [Execução](#execucao)
 - [Resultado](#resultado)
 - [License](#license)
 
@@ -35,6 +36,16 @@
     métodos está condizente com o observado na prática.
 </p>
 
+<a id="execucao"></a>
+
+## 🔥 Como Executar
+
+Para executar os projetos, basta entrar no diretório e utilizar os comandos abaixo:
+
+```ssh
+$ make -s
+$ ./main < inputs/in1.txt
+```
 
 <a id="resultado"></a>
 
