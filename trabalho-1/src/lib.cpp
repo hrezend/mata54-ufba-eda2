@@ -84,6 +84,22 @@ vector<int> generateStaticAllocateArray(vector<int>& inputs, int arraySize) {
   int countInserted = 0;
   vector<int> result = initializeArray(arraySize, -1);
 
+  for(int i = 0; i < inputs.size(); i++) {
+    int h1 = calculateFirstHashing(inputs[i], arraySize);
+
+    int index = h1, lastIndex = (arraySize - 1);
+    while(!isIndexFree(result[index])) {
+      index = lastIndex--;
+    }
+
+    result[index] = inputs[i];
+    countInserted++;
+
+    if(countInserted == arraySize) {
+      break;
+    }
+  }
+
   return result;
 }
 
