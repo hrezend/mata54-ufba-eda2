@@ -20,11 +20,14 @@ int main() {
   vector<int> doubleHashingArray = generateDoubleHashingArray(inputs, maxFileSize);
 
   printf("### STATIC ALLOCATE TABLE ###\n");
+  printAverageHits(0);
   printArray(staticAllocateArray);
 
   printf("### LINEAR PROBING TABLE ###\n");
+  printAverageHits(0);
   printArray(linearProbingArray);
 
   printf("### DOUBLE HASHING TABLE ###\n");
+  printAverageHits(0);
   printArray(doubleHashingArray);
 }

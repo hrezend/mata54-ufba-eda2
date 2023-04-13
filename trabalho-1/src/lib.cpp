@@ -15,33 +15,22 @@ void printArray(vector<int>& inputs) {
 }
 
 /*
-* Recebe um inteiro e um array, referente ao index e ao array em que será verificado o não preenchimento da posição.
-* @param {vector<int>} array
-* @param {int} index
-*/
-bool isIndexFree(vector<int>& array, int index) {
-  if(array[index] == -1) {
-    return true;
-  }
-  return false;
+* Printa a média de acesso passada via parâmetro.
+* @param {int} average
+*/ 
+void printAverageHits(float average) {
+  printf("[MEDIA DE ACESSOS]: %.1f\n", average);
 }
 
 /*
-* Chama o método isIndexFree() para encontrar o próximo index livre e válido para o h1 e o h2 do registro que está sendo inserido.
-* @param {int} h1
-* @param {int} h2
-* @param {int} arraySize
-* @param {vector<int>} array
+* Recebe um inteiro referente ao elemento de um array em um determinado index.
+* @param {int} element
 */
-int findFreeIndex(int h1, int h2, int arraySize, vector<int>& array) {
-  int index = h1, i = 1;
-  
-  while(!isIndexFree(array, index)) {
-    index = (h1 + (i * h2)) % arraySize;
-    i++;
+bool isIndexFree(int element) {
+  if(element == -1) {
+    return true;
   }
-  
-  return index;
+  return false;
 }
 
 /*
@@ -92,6 +81,7 @@ vector<int> initializeArray(int arraySize, int element) {
 * @param {int} arraySize
 */
 vector<int> generateStaticAllocateArray(vector<int>& inputs, int arraySize) {
+  int countInserted = 0;
   vector<int> result = initializeArray(arraySize, -1);
 
   return result;
@@ -103,7 +93,25 @@ vector<int> generateStaticAllocateArray(vector<int>& inputs, int arraySize) {
 * @param {int} arraySize
 */
 vector<int> generateLinearPobringArray(vector<int>& inputs, int arraySize) {
+  int countInserted = 0;
   vector<int> result = initializeArray(arraySize, -1);
+
+  for(int i = 0; i < inputs.size(); i++) {
+    int h1 = calculateFirstHashing(inputs[i], arraySize);
+
+    int index = h1, indexIterator = 1;
+    while(!isIndexFree(result[index])) {
+      index = (h1 + indexIterator) % arraySize;
+      indexIterator++;
+    }
+
+    result[index] = inputs[i];
+    countInserted++;
+
+    if(countInserted == arraySize) {
+      break;
+    }
+  }
 
   return result;
 }
@@ -118,16 +126,21 @@ vector<int> generateDoubleHashingArray(vector<int>& inputs, int arraySize) {
   vector<int> result = initializeArray(arraySize, -1);
 
   for(int i = 0; i < inputs.size(); i++) {
-    if(countInserted == arraySize) {
-      printf("O arquivo está cheio. Encerrando... \n");
-      break;
-    }
-    
     int h1 = calculateFirstHashing(inputs[i], arraySize);
     int h2 = calculateSecondHashing(inputs[i], arraySize);
-    int index = findFreeIndex(h1, h2, arraySize, result);
+
+    int index = h1, indexIterator = 1;
+    while(!isIndexFree(result[index])) {
+      index = (h1 + (indexIterator * h2)) % arraySize;
+      indexIterator++;
+    }
 
     result[index] = inputs[i];
+    countInserted++;
+
+    if(countInserted == arraySize) {
+      break;
+    }
   }
 
   return result;
