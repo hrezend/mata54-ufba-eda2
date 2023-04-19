@@ -4,11 +4,16 @@
   #include <vector>
   using namespace std;
 
-  void printArray(vector<int>& array);
+  void printArray(vector<int>& array, vector<int>& pointers);
   void printAverageHits(float average); 
 
-  vector<int> generateStaticAllocateArray(vector<int>& inputs, int maxFileSize);
-  vector<int> generateLinearPobringArray(vector<int>& inputs, int maxFileSize);
-  vector<int> generateDoubleHashingArray(vector<int>& inputs, int maxFileSize);
+  void generateStaticAllocateArray(vector<int>& inputs, vector<int>& file, vector<int>& pointers, int maxFileSize);
+  float calculateAverageHitsForStaticAllocate(vector<int>& inputs, vector<int>& file, vector<int>& pointers);
+
+  void generateLinearPobringArray(vector<int>& inputs, vector<int>& file, int maxFileSize);
+  float calculateAverageHitsForLinearPobring(vector<int>& inputs, vector<int>& file);
+
+  void generateDoubleHashingArray(vector<int>& inputs, vector<int>& file, int maxFileSize);
+  float calculateAverageHitsForDoubleHashing(vector<int>& inputs, vector<int>& file);
 
 #endif

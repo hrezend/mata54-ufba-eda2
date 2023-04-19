@@ -9,25 +9,43 @@ int main() {
   cin >> maxFileSize;
 
   int input;
-  vector<int> inputs;
+  vector<int> inputs, pointers;
+  float average = 0;
   
   while(cin >> input) {
     inputs.push_back(input);
   }
 
-  vector<int> staticAllocateArray = generateStaticAllocateArray(inputs, maxFileSize);
-  vector<int> linearProbingArray = generateLinearPobringArray(inputs, maxFileSize);
-  vector<int> doubleHashingArray = generateDoubleHashingArray(inputs, maxFileSize);
-
+  /**
+   * HASHING COM ENCADEAMENTO EXPLÍCITO E ALOCAÇÃO ESTÁTICA
+  */
+  vector<int> staticAllocateArray, staticAllocatePointers;
+  generateStaticAllocateArray(inputs, staticAllocateArray, staticAllocatePointers, maxFileSize);
+  average = calculateAverageHitsForStaticAllocate(inputs, staticAllocateArray, staticAllocatePointers);
+  
   printf("### STATIC ALLOCATE TABLE ###\n");
-  printAverageHits(0);
-  printArray(staticAllocateArray);
+  printArray(staticAllocateArray, staticAllocatePointers);
+  printAverageHits(average);
 
+  /**
+   * HASHING DE ENDEREÇAMENTO ABERTO E SONDAGEM LINEAR
+  */
+  vector<int> linearProbingArray;
+  generateLinearPobringArray(inputs, linearProbingArray, maxFileSize);
+  average = calculateAverageHitsForLinearPobring(inputs, linearProbingArray);
+  
   printf("### LINEAR PROBING TABLE ###\n");
-  printAverageHits(0);
-  printArray(linearProbingArray);
+  printArray(linearProbingArray, pointers);
+  printAverageHits(average);
 
+  /**
+   * HASHING DE ENDEREÇAMENTO ABERTO E DUPLO 
+  */
+  vector<int> doubleHashingArray;
+  generateDoubleHashingArray(inputs, doubleHashingArray, maxFileSize);
+  average = calculateAverageHitsForDoubleHashing(inputs, doubleHashingArray);
+  
   printf("### DOUBLE HASHING TABLE ###\n");
-  printAverageHits(0);
-  printArray(doubleHashingArray);
+  printArray(doubleHashingArray, pointers);
+  printAverageHits(average);
 }
