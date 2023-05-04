@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "lib.hpp"
+#include "models.hpp"
 
 using namespace std;
 
@@ -9,12 +10,22 @@ int main() {
   cin >> maxFileSize;
 
   int input;
-  vector<int> inputs, pointers;
+  vector<int> inputs;
   float average = 0;
   
   while(cin >> input) {
     inputs.push_back(input);
   }
+
+  /**
+   * HASHING COM ENCADEAMENTO EXPLÍCITO E ALOCAÇÃO DINÂMICA
+  */
+  vector<int> dinamicAllocateArray;
+  vector<node> nodesForDinamicAllocate;
+  generateDinamicAllocateArray(inputs, dinamicAllocateArray, nodesForDinamicAllocate, maxFileSize);
+  average = calculateAverageHitsForDinamicAllocate(inputs, dinamicAllocateArray, nodesForDinamicAllocate);
+  
+  printf("media de acessos: %.1f\n\n", average);
 
   /**
    * HASHING COM ENCADEAMENTO EXPLÍCITO E ALOCAÇÃO ESTÁTICA
@@ -23,9 +34,7 @@ int main() {
   generateStaticAllocateArray(inputs, staticAllocateArray, staticAllocatePointers, maxFileSize);
   average = calculateAverageHitsForStaticAllocate(inputs, staticAllocateArray, staticAllocatePointers);
   
-  printf("### STATIC ALLOCATE TABLE ###\n");
-  printArray(staticAllocateArray, staticAllocatePointers);
-  printAverageHits(average);
+  printf("media de acessos: %.1f\n\n", average);
 
   /**
    * HASHING DE ENDEREÇAMENTO ABERTO E SONDAGEM LINEAR
@@ -34,9 +43,7 @@ int main() {
   generateLinearPobringArray(inputs, linearProbingArray, maxFileSize);
   average = calculateAverageHitsForLinearPobring(inputs, linearProbingArray);
   
-  printf("### LINEAR PROBING TABLE ###\n");
-  printArray(linearProbingArray, pointers);
-  printAverageHits(average);
+  printf("media de acessos: %.1f\n\n", average);
 
   /**
    * HASHING DE ENDEREÇAMENTO ABERTO E DUPLO 
@@ -45,7 +52,5 @@ int main() {
   generateDoubleHashingArray(inputs, doubleHashingArray, maxFileSize);
   average = calculateAverageHitsForDoubleHashing(inputs, doubleHashingArray);
   
-  printf("### DOUBLE HASHING TABLE ###\n");
-  printArray(doubleHashingArray, pointers);
-  printAverageHits(average);
+  printf("media de acessos: %.1f\n\n", average);
 }

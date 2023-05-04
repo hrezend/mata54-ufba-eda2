@@ -2,10 +2,11 @@
 #define _H_CUSTOM_LIB_
 
   #include <vector>
+  #include "models.hpp"
   using namespace std;
 
-  void printArray(vector<int>& array, vector<int>& pointers);
-  void printAverageHits(float average); 
+  void generateDinamicAllocateArray(vector<int>& inputs, vector<int>& file, vector<node>& nodes, int maxFileSize);
+  float calculateAverageHitsForDinamicAllocate(vector<int>& inputs, vector<int>& file, vector<node>& nodes);
 
   void generateStaticAllocateArray(vector<int>& inputs, vector<int>& file, vector<int>& pointers, int maxFileSize);
   float calculateAverageHitsForStaticAllocate(vector<int>& inputs, vector<int>& file, vector<int>& pointers);

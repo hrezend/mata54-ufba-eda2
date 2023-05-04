@@ -1,4 +1,18 @@
-### STATIC ALLOCATE TABLE ###
+### ENCADEAMENTO EXPLICITO (ALOCACAO DINAMICA) ###
+[0]: 77 -> (-1)
+[1]: -1 -> (-1)
+[2]: -1 -> (-1)
+[3]: -1 -> (-1)
+[4]: -1 -> (-1)
+[5]: 27 -> (16, 49, 5)
+[6]: -1 -> (-1)
+[7]: 18 -> (29, 40)
+[8]: -1 -> (-1)
+[9]: -1 -> (-1)
+[10]: 43 -> (-1)
+media de acessos: 2.0
+
+### ENCADEAMENTO EXPLICITO (ALOCACAO ESTATICA) ###
 [0]: 77 (-1)
 [1]: -1 (-1)
 [2]: -1 (-1)
@@ -10,8 +24,9 @@
 [8]: 16 (4)
 [9]: 43 (6)
 [10]: 29 (9)
-[MEDIA DE ACESSOS]: 2.2
-### LINEAR PROBING TABLE ###
+media de acessos: 2.2
+
+### ENDERECAMENTO ABERTO (LINEAR PROBING) ###
 [0]: 77
 [1]: 49
 [2]: 5
@@ -23,8 +38,9 @@
 [8]: 29
 [9]: 40
 [10]: 43
-[MEDIA DE ACESSOS]: 3.1
-### DOUBLE HASHING TABLE ###
+media de acessos: 3.1
+
+### ENDERECAMENTO ABERTO (DOUBLE HASHING) ###
 [0]: 77
 [1]: -1
 [2]: 40
@@ -36,4 +52,4 @@
 [8]: 5
 [9]: 29
 [10]: 43
-[MEDIA DE ACESSOS]: 2.3
+media de acessos: 2.3
