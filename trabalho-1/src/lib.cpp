@@ -90,9 +90,10 @@ vector<node> initializeNodeArray(int arraySize, int element) {
 * @param {vector<int>} inputs
 * @param {vector<int>} file
 * @param {vector<node>} nodes
+* @param {bool} printTable
 * @param {int} maxFileSize
 */
-void generateDinamicAllocateArray(vector<int>& inputs, vector<int>& file, vector<node>& nodes, int maxFileSize) {
+void generateDinamicAllocateArray(vector<int>& inputs, vector<int>& file, vector<node>& nodes, int maxFileSize, bool printTable) {
   file = initializeArray(maxFileSize, -1);
   nodes = initializeNodeArray(maxFileSize, -1);
   
@@ -107,24 +108,26 @@ void generateDinamicAllocateArray(vector<int>& inputs, vector<int>& file, vector
     }
   }
 
-  printf("### ENCADEAMENTO EXPLICITO (ALOCACAO DINAMICA) ###\n");
-  for(int i = 0; i < file.size(); i++) {
-    node currentNode = nodes[i];
-    printf("[%d]: %d -> (", i, file[i]);
-
-    if(currentNode.elements.size() == 0) {
-      printf("-1");
-    }
-    else {
-      for(int j = 0; j < currentNode.elements.size(); j++) {
-        printf("%d", currentNode.elements[j]);
-        if(j+1 < currentNode.elements.size()) {
-          printf(", ");
+  if(printTable) {
+    printf("### ENCADEAMENTO EXPLICITO (ALOCACAO DINAMICA) ###\n");
+    for(int i = 0; i < file.size(); i++) {
+      node currentNode = nodes[i];
+      printf("[%d]: %d -> (", i, file[i]);
+  
+      if(currentNode.elements.size() == 0) {
+        printf("-1");
+      }
+      else {
+        for(int j = 0; j < currentNode.elements.size(); j++) {
+          printf("%d", currentNode.elements[j]);
+          if(j+1 < currentNode.elements.size()) {
+            printf(", ");
+          }
         }
       }
+      
+      printf(")\n");
     }
-    
-    printf(")\n");
   }
 }
 
@@ -133,9 +136,10 @@ void generateDinamicAllocateArray(vector<int>& inputs, vector<int>& file, vector
 * @param {vector<int>} inputs
 * @param {vector<int>} file
 * @param {vector<int>} pointers
+* @param {bool} printTable
 * @param {int} maxFileSize
 */
-void generateStaticAllocateArray(vector<int>& inputs, vector<int>& file, vector<int>& pointers, int maxFileSize) {
+void generateStaticAllocateArray(vector<int>& inputs, vector<int>& file, vector<int>& pointers, int maxFileSize, bool printTable) {
   file = initializeArray(maxFileSize, -1);
   pointers = initializeArray(maxFileSize, -1);
   
@@ -172,9 +176,11 @@ void generateStaticAllocateArray(vector<int>& inputs, vector<int>& file, vector<
     }
   }
 
-  printf("### ENCADEAMENTO EXPLICITO (ALOCACAO ESTATICA) ###\n");
-  for(int i = 0; i < file.size(); i++) {
-    printf("[%d]: %d (%d)\n", i, file[i], pointers[i]);
+  if(printTable) {
+    printf("### ENCADEAMENTO EXPLICITO (ALOCACAO ESTATICA) ###\n");
+    for(int i = 0; i < file.size(); i++) {
+      printf("[%d]: %d (%d)\n", i, file[i], pointers[i]);
+    }
   }
 }
 
@@ -182,9 +188,10 @@ void generateStaticAllocateArray(vector<int>& inputs, vector<int>& file, vector<
 * Recebe dois arrays, o primeiro é referente aos registros de entrada, o segundo é referente à representação de um arquivo. Em seguida utiliza a estratégia de sondagem linear para preencher os respectivos arrays.
 * @param {vector<int>} inputs
 * @param {vector<int>} file
+* @param {bool} printTable
 * @param {int} arraySize
 */
-void generateLinearPobringArray(vector<int>& inputs, vector<int>& file, int arraySize) {
+void generateLinearPobringArray(vector<int>& inputs, vector<int>& file, int arraySize, bool printTable) {
   file = initializeArray(arraySize, -1);
   int countInserted = 0;
 
@@ -205,9 +212,11 @@ void generateLinearPobringArray(vector<int>& inputs, vector<int>& file, int arra
     }
   }
 
-  printf("### ENDERECAMENTO ABERTO (LINEAR PROBING) ###\n");
-  for(int i = 0; i < file.size(); i++) {
-    printf("[%d]: %d\n", i, file[i]);
+  if(printTable) {
+    printf("### ENDERECAMENTO ABERTO (LINEAR PROBING) ###\n");
+    for(int i = 0; i < file.size(); i++) {
+      printf("[%d]: %d\n", i, file[i]);
+    }
   }
 }
 
@@ -215,9 +224,10 @@ void generateLinearPobringArray(vector<int>& inputs, vector<int>& file, int arra
 * Recebe dois arrays, o primeiro é referente aos registros de entrada, o segundo é referente à representação de um arquivo. Em seguida utiliza a estratégia de hashing duplo para preencher os respectivos arrays.
 * @param {vector<int>} inputs
 * @param {vector<int>} file
+* @param {bool} printTable
 * @param {int} arraySize
 */
-void generateDoubleHashingArray(vector<int>& inputs, vector<int>& file, int arraySize) {
+void generateDoubleHashingArray(vector<int>& inputs, vector<int>& file, int arraySize, bool printTable) {
   file = initializeArray(arraySize, -1);
   int countInserted = 0;
 
@@ -239,9 +249,11 @@ void generateDoubleHashingArray(vector<int>& inputs, vector<int>& file, int arra
     }
   }
 
-  printf("### ENDERECAMENTO ABERTO (DOUBLE HASHING) ###\n");
-  for(int i = 0; i < file.size(); i++) {
-    printf("[%d]: %d\n", i, file[i]);
+  if(printTable) {
+    printf("### ENDERECAMENTO ABERTO (DOUBLE HASHING) ###\n");
+    for(int i = 0; i < file.size(); i++) {
+      printf("[%d]: %d\n", i, file[i]);
+    } 
   }
 }
 

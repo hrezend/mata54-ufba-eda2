@@ -7,10 +7,11 @@
 
 # Índice
 
-- [Sobre](#sobre)
-- [Execução](#execucao)
-- [Resultado](#resultado)
-- [License](#license)
+- [Índice](#índice)
+  - [🧠 Sobre](#-sobre)
+  - [🔥 Como Executar](#-como-executar)
+  - [🎯 Resultado](#-resultado)
+  - [📝 License](#-license)
 
 <a id="sobre"></a>
 
@@ -44,7 +45,7 @@ Para executar os projetos, basta entrar no diretório e utilizar os comandos aba
 
 ```ssh
 $ make -s
-$ ./main < inputs/in1.txt
+$ ./main < in.txt
 ```
 
 <a id="resultado"></a>
